@@ -4,7 +4,8 @@ import socket
 HOST = 'localhost'
 PORT = 9500
 BUFSIZE = 1024
-OUTPUT_FILE = "recibido_audio.mp3"  # Nombre para guardar el audio recibido
+# Nombre del archivo donde se guardará el audio recibido
+OUTPUT_FILE = "recibido_audio.mp3"
 
 def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -29,7 +30,6 @@ def main():
     client_socket.sendall(b"OK")
     print(f"[Audio Client] Recibiendo archivo de {file_size} bytes...")
 
-    # Recibir y guardar el archivo
     bytes_recibidos = 0
     with open(OUTPUT_FILE, "wb") as f:
         while bytes_recibidos < file_size:

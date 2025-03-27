@@ -5,10 +5,10 @@ import os
 HOST = 'localhost'
 PORT = 9500
 BUFSIZE = 1024
-AUDIO_FILE = "audio.mp3"  # Cambia este nombre al de tu archivo de audio
+# Ruta completa al archivo de audio
+AUDIO_FILE = "/home/debian/Descargas/Los Titanes De Durango - Billete Mata Carita (Video Oficial) [5g0Rw-U1mGc].mp3"
 
 def main():
-    # Crear y configurar el socket del servidor
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((HOST, PORT))
     server_socket.listen(1)
@@ -18,7 +18,6 @@ def main():
         client_socket, addr = server_socket.accept()
         print(f"[Audio Server] Conexión desde: {addr}")
 
-        # Verificar que el archivo exista
         if not os.path.exists(AUDIO_FILE):
             print(f"[Audio Server] Archivo no encontrado: {AUDIO_FILE}")
             client_socket.sendall("0".encode('utf-8'))
@@ -29,7 +28,7 @@ def main():
         file_size = os.path.getsize(AUDIO_FILE)
         client_socket.sendall(str(file_size).encode('utf-8'))
 
-        # Esperar confirmación del cliente para iniciar la transferencia
+        # Esperar confirmación para iniciar la transferencia
         confirm = client_socket.recv(BUFSIZE)
         if confirm.decode('utf-8') != 'OK':
             print("[Audio Server] El cliente no confirmó la transferencia.")
